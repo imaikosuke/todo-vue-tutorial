@@ -13,7 +13,8 @@
     </form>
     <ul class="todo-list">
       <li v-for="todo in todos" :key="todo.id" class="todo-item">
-        {{ todo.text }}
+        <input type="checkbox" v-model="todo.completed" class="todo-checkbox" />
+        <span :class="{ 'completed': todo.completed }">{{ todo.text }}</span>
         <button @click="removeTodo(todo.id)" class="todo-remove-btn">
           削除
         </button>
@@ -34,7 +35,11 @@ const addTodo = () => {
   if (newTodo.value.trim() === '') {
     return;
   }
-  todos.value.push({ id: nextId.value, text: newTodo.value });
+  todos.value.push({
+      id: nextId.value,
+      text: newTodo.value,
+      completed: false
+  });
   nextId.value++;
   newTodo.value = '';
 };
@@ -99,6 +104,10 @@ const removeTodo = (id) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.completed {
+  text-decoration: line-through;
 }
 
 .todo-remove-btn {
